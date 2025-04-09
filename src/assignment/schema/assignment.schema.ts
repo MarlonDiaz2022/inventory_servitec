@@ -1,7 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Types } from 'mongoose';
-import { users } from 'src/users/schemas/users.schema';
-import { tools } from 'src/tools/schemas/tools.schema';
+
 
 @Schema()
 export class assignment {

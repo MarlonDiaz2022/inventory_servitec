@@ -13,7 +13,7 @@ cedula: string;
 @Prop({required: true,unique:true, uppercase:true, trim:true})
 phone: string;
 
-@Prop({required: true,unique:true, uppercase:true, trim:true})
+@Prop({required: true,unique:true, uppercase:true, trim:true,select: false})
 password: string;
 }
 

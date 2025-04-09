@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { AssignmentSchema } from './schema/assignment.schema';
 import { AssignmentController } from './assignment.controller';
 import { AssignmentService } from './assignment.service';
 import { MongooseModule } from '@nestjs/mongoose';
@@ -8,8 +9,9 @@ import { toolsSchema } from 'src/tools/schemas/tools.schema';
 @Module({
   imports: [
     MongooseModule.forFeature([
-      { name: 'assignment', schema: usersSchema },
+      { name: 'users', schema: usersSchema },
       { name: 'tools', schema: toolsSchema },
+      { name: 'assignment', schema: AssignmentSchema }
     ]),
   ],
   controllers: [AssignmentController],

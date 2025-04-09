@@ -15,6 +15,9 @@ code: string;
 @Prop({required: true, uppercase:true, trim:true})
 amount: string;
 
+@Prop({required:true})
+operating:boolean
+
 @Prop()
 imageurl: string;
 }

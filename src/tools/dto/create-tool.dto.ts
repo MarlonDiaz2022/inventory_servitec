@@ -20,7 +20,9 @@ export class createtooldto{
   @MinLength(1) 
   @IsNotEmpty()
   amount : string
-  
+
   @IsNotEmpty()
+  operating:boolean;
+  
   imageUrl: string;
       }

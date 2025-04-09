@@ -1,47 +1,33 @@
-import { Controller, Delete, Get, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
 import { AssignmentService } from './assignment.service';
 import { createassignamentdto } from './dto/create-assignmenty.dto';
 import { updateassignmentdto } from './dto/update-assignment.dto';
 
-@Controller('assignment')
+@Controller('/assignments')
 export class AssignmentController {
 
 assignmentservice:AssignmentService
-
 constructor (assignmentS:AssignmentService){
-
     this.assignmentservice=assignmentS;
 }
-
 @Get()
 getassignmnets(){
-
-    this.assignmentservice.getassignments();
+    return this.assignmentservice.getassignments();
 }
-
-@Get()
-getassignmnet(identify: string){
-
-    this.assignmentservice.getassignment(identify);
+@Get(':identify')
+getassignmnet(@Param('identify') identify: string){
+   return this.assignmentservice.getassignment(identify);
 }
-
 @Post()
-createassignmnet(assignement:createassignamentdto){
-    this.assignmentservice.createassignment(assignement);
+createassignmnet(@Body()assignement:createassignamentdto){
+    return  this.assignmentservice.createassignment(assignement);
 }
-
 @Put()
-updateassignment(assignement:updateassignmentdto){
-    
-    this.assignmentservice.updateuassignment(assignement);
+updateassignment(@Body()assignement:updateassignmentdto){   
+    return this.assignmentservice.updateuassignment(assignement);
 }
-
-@Delete()
-deleteassignment(identify:string){
-
-        this.assignmentservice.deleteassignment(identify);
+@Delete(':identify')
+deleteassignment(@Param('identify') identify: string) {
+    return this.assignmentservice.deleteassignment(identify);
 }
-
-
-
 }
