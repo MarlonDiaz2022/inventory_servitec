@@ -1,10 +1,14 @@
 import { Prop, Schema, SchemaFactory} from "@nestjs/mongoose";
+import { Types } from "mongoose";
 
 @Schema()
-export class tools{
+export class maintenances{
 
 @Prop({required: true,unique:true, uppercase:true, trim:true})
-name: string;
+maintenancescode: string;
+
+@Prop({ type: Types.ObjectId, ref: 'tools', required: true })
+toolcode: Types.ObjectId;
 
 @Prop({required: true, uppercase:true, trim:true})
 model: string;
@@ -16,13 +20,10 @@ code: string;
 serial: string;
 
 @Prop({required: true, uppercase:true, trim:true})
-amount: number;
+maintenancesdate: number;
 
-@Prop({required:true})
-operating:boolean
-
-@Prop()
-imageurl: string;
+@Prop({required: true, uppercase:true, trim:true})
+comment: string;
 }
 
-export const toolsSchema = SchemaFactory.createForClass(tools)
+export const maintenancesSchema = SchemaFactory.createForClass(maintenances)

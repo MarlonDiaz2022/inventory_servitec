@@ -1,13 +1,13 @@
-import { Injectable,ConflictException } from "@nestjs/common";
+import { Injectable,ConflictException, NotFoundException } from "@nestjs/common";
 import { createtooldto } from "./dto/create-tool.dto";
 import { updatetoolsdto } from "./dto/update-tools.dto";
 import { InjectModel } from "@nestjs/mongoose";
-import { tools } from "./schemas/tools.schema";
+import { tools} from "./schemas/tools.schema";
 import { Model } from "mongoose";
 
 
 @Injectable()
-export class toolsService{
+export class ToolsService{
 
   
 constructor(@InjectModel(tools.name) private toolsModel : Model<tools>){}
@@ -38,7 +38,7 @@ async createtool(tool: createtooldto) {
 async updatetool(tool:updatetoolsdto){
 
   const existstoolOri = await this.toolsModel.findOne({code:tool.code})
-  if(!existstoolOri){
+  if(!existstoolOri){  
     throw new ConflictException(`tool with ${tool.code} no exist`)
   }
   if (tool.code) {
@@ -48,8 +48,8 @@ async updatetool(tool:updatetoolsdto){
       throw new ConflictException(`the name ${tool.name} is ready use`);
     }
   }
-  await this.toolsModel.updateOne({ cedula: tool.code}, { $set: tool });
-  return this.toolsModel.findOne({ cedula:tool.code });
+  await this.toolsModel.updateOne({ code: tool.code}, { $set: tool });
+  return this.toolsModel.findOne({ code:tool.code });
 }
 
 
@@ -63,7 +63,31 @@ async deletetools(code: string) {
   return existsUser;
 }
 
+async reduceamount(id:String, decrease=1){
 
+  const element= await this.toolsModel.findById(id)
+  if(element != null){  
+    if (isNaN(Number(element.amount))) {
+      throw new NotFoundException(`Tool with id ${id} has an invalid amount value`);
+    }
+  if(element.amount<=0){
+    throw new ConflictException('the tools not reduce more')
+  }  
+    element.amount-=decrease;
+    await element.save();
+  }
+}
 
+async increaseamount(id:String, increase=1){
+
+  const element= await this.toolsModel.findById(id)
+  if(element != null){  
+    if (isNaN(Number(element.amount))) {
+      throw new NotFoundException(`Tool with id ${id} has an invalid amount value`);
+    }
+    element.amount+=increase;
+    await element.save();
+  }
+}
 
 }

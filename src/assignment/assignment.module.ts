@@ -5,6 +5,8 @@ import { AssignmentService } from './assignment.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { usersSchema } from 'src/users/schemas/users.schema';
 import { toolsSchema } from 'src/tools/schemas/tools.schema';
+import { ToolsModule } from '../tools/tools.module';
+
 
 @Module({
   imports: [
@@ -13,9 +15,9 @@ import { toolsSchema } from 'src/tools/schemas/tools.schema';
       { name: 'tools', schema: toolsSchema },
       { name: 'assignment', schema: AssignmentSchema }
     ]),
+    ToolsModule 
   ],
   controllers: [AssignmentController],
-  providers: [AssignmentService],
+  providers: [AssignmentService] 
 })
-
 export class AssignmentModule {}

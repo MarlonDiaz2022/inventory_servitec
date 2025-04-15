@@ -17,9 +17,12 @@ export class createtooldto{
   code:string;
 
   @IsString() 
-  @MinLength(1) 
+  @MinLength(1)
+  @IsNotEmpty() 
+  serial:string;
+
   @IsNotEmpty()
-  amount : string
+  amount : number
 
   @IsNotEmpty()
   operating:boolean;

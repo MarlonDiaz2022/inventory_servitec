@@ -1,6 +1,6 @@
 
 import { Controller, Get, Post,Put,Delete, Body, Param, ValidationPipe, UseInterceptors, UploadedFile} from '@nestjs/common';
-import { toolsService } from './tools.service';
+import { ToolsService } from './tools.service';
 import { createtooldto } from './dto/create-tool.dto';
 import { updatetoolsdto } from './dto/update-tools.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
@@ -10,9 +10,9 @@ import { extname } from 'path';
 @Controller('/tools')
     export class ToolsController {
 
-toolsService:toolsService;
+toolsService:ToolsService;
 
-    constructor(toolservice: toolsService){
+    constructor(toolservice: ToolsService){
            
         this.toolsService=toolservice;
     }
@@ -47,7 +47,7 @@ async createTool(
 }
 
 
-@Put()
+@Put('/:code')
 updateuser(@Body() tool: updatetoolsdto){
     return this.toolsService.updatetool(tool)
 }

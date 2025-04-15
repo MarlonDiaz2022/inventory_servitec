@@ -5,7 +5,9 @@ export class updatetoolsdto{
   name?: string;
   model?: string;
   code?:string;
-  amount? : string
+  serial?:string;
+  amount? : number;
   imageUrl?: string;
+  operating?:boolean;
 
       }
