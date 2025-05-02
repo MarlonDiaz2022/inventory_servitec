@@ -5,67 +5,63 @@ import { maintenances } from './schema/maintenance.schema';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { tools } from 'src/tools/schemas/tools.schema';
+import { ToolsService } from 'src/tools/tools.service';
 
 
 @Injectable()
 export class MaintenanceService {
-  
-
 
   constructor(
-    @InjectModel(maintenances.name) private maintenanceModel: Model<maintenances>,
-    @InjectModel('tools') private toolModel: Model<tools>
+    @InjectModel('maintenances') private maintenanceModel: Model<maintenances>,
+    @InjectModel('tools') private toolModel: Model<tools>,
+    private readonly toolsService: ToolsService,
   ) {}
 
-  
 
   getmaintenances() {
-    return this.maintenanceModel.find()
+    return this.maintenanceModel.find().populate({ path: 'toolID', strictPopulate: false });
   }
 
   async getmaintenance(code: string) {
-
-    const maintenance= await this.maintenanceModel.findById(code).populate('toolcode');
-
-    if(!maintenance){
-      throw new ConflictException(`maintenance with ${code} no exist`)
+    console.log(code);
+    const maintenance = await this.maintenanceModel
+      .findOne({ maintenancescode: code })
+      .populate('toolID'); 
+  
+    if (!maintenance) {
+      throw new ConflictException(`maintenance with code ${code} does not exist`);
     }
+  
     return maintenance;
   }
 
 
   async createmaintenance( createmaintenance: Createmaintenancedto) {
-    const tool = await this.toolModel.findOne({ _id: createmaintenance.toolcode}).lean()
-    console.log('Tool valido', tool);
+    const tool = await this.toolModel.findOne({ _id: createmaintenance.toolID}).lean()
+    
     if (!tool) { 
-      throw new ConflictException(`maintenance with ${createmaintenance.toolcode} no exist`)
+      throw new ConflictException(`maintenance with ${createmaintenance.toolID} no exist`)
     }
     const maintcode = `ASSIGN-${Date.now()}`;
-
-  const element = new this.maintenanceModel({
+    
+  await this.toolsService.ismaintenence(tool?.code)
+  return new this.maintenanceModel({
   maintenancescode: maintcode,  
-  toolcode: tool.code,
-  model: tool.model,
-  code: tool.code,
-  serial: tool.code,
-  maintenancedate: new Date(),
-  comment:createmaintenance.comments})
-
-  return element.save();
-
-  }
+  toolID: tool._id,
+  comment:createmaintenance.comments}).save();
+}
 
   async updatemaintenance( updateMaintenance: UpdateMaintenanceDto) {
     
-    const maintenance= await this.maintenanceModel.findOne({maintenancescode : updateMaintenance.identify})
+    const maintenance= await this.maintenanceModel.findOne({maintenancescode : updateMaintenance.maintenancecode})
 
     if(!maintenance){
-      throw new ConflictException(`maintenance with ${updateMaintenance.identify} no exist`)
+      throw new ConflictException(`maintenance with ${updateMaintenance.maintenancecode} no exist`)
     }
 
-    this.maintenanceModel.updateOne({identify:updateMaintenance.identify},{$set:updateMaintenance})
+    this.maintenanceModel.updateOne({identify:updateMaintenance.maintenancecode},{$set:updateMaintenance})
 
-    const update= await this.maintenanceModel.findOne({identify : updateMaintenance.identify}).populate('tools').populate('maintenance')
+    const update= await this.maintenanceModel.findOne({identify : updateMaintenance.maintenancecode}).populate('tools').populate('maintenance')
 
     return maintenance;
 
@@ -85,6 +81,12 @@ export class MaintenanceService {
 
   }
 
-
+  async changestuatus(code:string){
+    const tool = await this.toolModel.findById(code).lean()
+    if (!tool) { 
+      throw new ConflictException(`maintenance with ${code} no exist`)
+    }
+      await this.toolsService.changestatus(code);
+}
 
 }

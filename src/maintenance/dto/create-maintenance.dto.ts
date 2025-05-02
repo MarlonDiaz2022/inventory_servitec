@@ -7,7 +7,7 @@ export class Createmaintenancedto {
 @IsString() 
 @MinLength(1)
 @IsNotEmpty()
-toolcode:String;
+toolID:String;
 
 @IsString() 
 @MinLength(1)

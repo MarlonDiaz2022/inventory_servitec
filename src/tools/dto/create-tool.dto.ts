@@ -26,6 +26,9 @@ export class createtooldto{
 
   @IsNotEmpty()
   operating:boolean;
+
+  @IsNotEmpty()
+  mantenancing:boolean
   
   imageUrl: string;
       }

@@ -9,7 +9,11 @@ async function bootstrap() {
 
   app.useGlobalPipes(new ValidationPipe());
 
-  // Habilita la carpeta de archivos estáticos (para las imágenes)
+  app.enableCors({
+    origin: 'http://localhost:4200', 
+    credentials: true  
+  });
+
   app.useStaticAssets(join(__dirname, '..', 'uploads'), {
     prefix: '/uploads/', // Así podrás acceder desde /uploads/tools/...
   });

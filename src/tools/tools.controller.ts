@@ -1,4 +1,3 @@
-
 import { Controller, Get, Post,Put,Delete, Body, Param, ValidationPipe, UseInterceptors, UploadedFile} from '@nestjs/common';
 import { ToolsService } from './tools.service';
 import { createtooldto } from './dto/create-tool.dto';
@@ -28,7 +27,7 @@ getuser(@Param('code') code : string){
 
 
 @Post()
-@UseInterceptors(FileInterceptor('imagenurl', {
+@UseInterceptors(FileInterceptor('imagenUrl', {
   storage: diskStorage({
     destination: './uploads/tools',
     filename: (req, file, cb) => {
@@ -38,6 +37,7 @@ getuser(@Param('code') code : string){
     },
   }),
 }))
+
 async createTool(
   @Body() data: createtooldto,
   @UploadedFile() file: Express.Multer.File,

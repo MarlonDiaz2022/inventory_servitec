@@ -7,6 +7,9 @@ export class tools{
 name: string;
 
 @Prop({required: true, uppercase:true, trim:true})
+brand: string;
+
+@Prop({required: true, uppercase:true, trim:true})
 model: string;
 
 @Prop({required: true,unique:true, uppercase:true, trim:true, Unique: true})
@@ -21,8 +24,11 @@ amount: number;
 @Prop({required:true})
 operating:boolean
 
+@Prop({required:true})
+mantenancing:boolean
+
 @Prop()
-imageurl: string;
+imageUrl: string;
 }
 
 export const toolsSchema = SchemaFactory.createForClass(tools)

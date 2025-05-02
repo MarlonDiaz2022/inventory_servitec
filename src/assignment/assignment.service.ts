@@ -39,10 +39,9 @@ async createassignment(createassignment:createassignamentdto){
   
   const tool = await this.toolModel.findOne({ _id: createassignment.toolId}).lean()
   const worker = await this.userModel.findById(createassignment.workerId);
-  await this.toolsService.reduceamount(createassignment.toolId);
+ 
      
   if(!tool ){
-    
   throw new ConflictException(`the assignment can't created because tools with code${tool} dont exist`)
   }
   if(tool.amount<=0){
@@ -51,16 +50,24 @@ async createassignment(createassignment:createassignamentdto){
   if (!worker || createassignment.workerId.toString() !== worker._id.toString()) {
   throw new ConflictException( `The assignment can't be created because worker with ID ${createassignment.workerId} doesn't exist`);
 }
+if(tool.mantenancing ==true){
+  console.log(tool.mantenancing)
+  throw new ConflictException( `The assignment can't be created because tool with ID ${tool.code} is in maintenance`);
+}
+if(tool.operating ==false){
+  throw new ConflictException( `The assignment can't be created because tool with ID ${tool.code} is out of service`);
+}
   const identify = `ASSIGN-${Date.now()}`;
 const assignment = new this.assignmentModel({
   identify,
   worker: createassignment.workerId,
   tool: createassignment.toolId,
   place: createassignment.place,
-  delivery_date: createassignment.delivery_date,
   status: createassignment.status,
   date_of_loan: new Date()});   
+  await this.toolsService.reduceamount(createassignment.toolId);
   return assignment.save();
+
 }
 
 async deleteassignment(id: string) {

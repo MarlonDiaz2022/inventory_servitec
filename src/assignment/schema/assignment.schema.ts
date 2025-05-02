@@ -20,7 +20,7 @@ export class assignment {
   @Prop({ required: true, default: () => new Date() })
   date_of_loan: Date;
 
-  @Prop({ required: true })
+  @Prop({ required: true, default:null})
   delivery_date: Date;
 
   @Prop({ required: true })

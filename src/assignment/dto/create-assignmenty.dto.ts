@@ -1,6 +1,5 @@
 import { IsNotEmpty,IsString } from "class-validator";
-import { tools } from "src/tools/schemas/tools.schema";
-import { users } from "src/users/schemas/users.schema";
+
 
 
 export class createassignamentdto {
@@ -15,9 +14,6 @@ export class createassignamentdto {
   
     @IsNotEmpty()
     place: string;
-  
-    @IsNotEmpty()
-    delivery_date: Date;
   
     @IsNotEmpty()
     status: boolean;

@@ -10,6 +10,7 @@ export class MaintenanceController {
 
   @Post()
   createmaintenances(@Body() createMaintenanceDto: Createmaintenancedto) {
+    
     return this.maintenanceService.createmaintenance(createMaintenanceDto)
   }
 
@@ -19,8 +20,8 @@ export class MaintenanceController {
   }
 
   @Get(':id')
-  getmaintenance( identify: string) {
-    return this.maintenanceService.getmaintenance(identify);
+  getmaintenance( @Param('id') id: string) {
+    return this.maintenanceService.getmaintenance(id);
   }
 
   @Patch()

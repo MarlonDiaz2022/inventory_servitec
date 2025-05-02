@@ -1,8 +1,8 @@
 
 
 export class UpdateMaintenanceDto{
-identify?:string;    
-toolcode?:String;
+maintenancecode?:string;    
+toolID?:String;
 serial?:string;
 modelo?:string;
 marca?:string;

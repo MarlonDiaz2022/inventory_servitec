@@ -30,6 +30,8 @@ async createtool(tool: createtooldto) {
   if (existsusers) {
     throw new ConflictException(`tool ${tool.name} already exists`);
   }
+  console.log('Archivo recibido:', tool.imageUrl);
+
   const newUser = new this.toolsModel(tool); 
   return newUser.save();
 }
@@ -52,13 +54,12 @@ async updatetool(tool:updatetoolsdto){
   return this.toolsModel.findOne({ code:tool.code });
 }
 
-
 async deletetools(code: string) {
   const existsUser = await this.toolsModel.findOne({ code });
   if (!existsUser) {
     throw new ConflictException(`the tools with ${code} not exist`);
   }
-  await this.toolsModel.deleteOne({ code});
+  await this.toolsModel.deleteOne({code});
 
   return existsUser;
 }
@@ -89,5 +90,25 @@ async increaseamount(id:String, increase=1){
     await element.save();
   }
 }
+
+async changestatus(code:string){
+  const element = await this.toolsModel.findOne({code})
+  if(!element){  
+    throw new ConflictException(`tool with ${code} no exist`)
+  }
+  element.operating=false;
+  await element.save()
+}
+
+async ismaintenence(code:string){
+  const element = await this.toolsModel.findOne({code})
+  if(!element){  
+    throw new ConflictException(`tool with ${code} no exist`)
+  }
+  element.mantenancing=true;
+  await element.save()
+}
+
+
 
 }
