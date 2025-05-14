@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString, MinLength } from 'class-validator'
+import { IsBoolean, IsNotEmpty, IsString, MinLength } from 'class-validator'
 
 export class createtooldto{
 
@@ -10,6 +10,10 @@ export class createtooldto{
   @IsString() 
   @MinLength(1) 
   model: string;
+
+  @IsString() 
+  @MinLength(1) 
+  brand: string;
   
   @IsString() 
   @MinLength(1)
@@ -28,7 +32,7 @@ export class createtooldto{
   operating:boolean;
 
   @IsNotEmpty()
-  mantenancing:boolean
+  maintenance:boolean
   
   imageUrl: string;
       }

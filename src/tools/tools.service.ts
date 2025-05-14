@@ -37,22 +37,18 @@ async createtool(tool: createtooldto) {
 }
 
 
-async updatetool(tool:updatetoolsdto){
+async updatetool(id: string, tool: updatetoolsdto) {
+  const existsTool = await this.toolsModel.findById(id);
 
-  const existstoolOri = await this.toolsModel.findOne({code:tool.code})
-  if(!existstoolOri){  
-    throw new ConflictException(`tool with ${tool.code} no exist`)
+  if (!existsTool) {
+    throw new ConflictException(`Tool with id ${id} does not exist`);
   }
-  if (tool.code) {
-    const existsUser = await this.toolsModel.findOne({ code: tool.code });
 
-    if (existsUser && existsUser.code !== tool.code) {
-      throw new ConflictException(`the name ${tool.name} is ready use`);
-    }
-  }
-  await this.toolsModel.updateOne({ code: tool.code}, { $set: tool });
-  return this.toolsModel.findOne({ code:tool.code });
+  await this.toolsModel.updateOne({ _id: id }, { $set: tool });
+  return this.toolsModel.findById(id);
 }
+
+
 
 async deletetools(code: string) {
   const existsUser = await this.toolsModel.findOne({ code });
@@ -105,7 +101,7 @@ async ismaintenence(code:string){
   if(!element){  
     throw new ConflictException(`tool with ${code} no exist`)
   }
-  element.mantenancing=true;
+  element.maintenance=true;
   await element.save()
 }
 

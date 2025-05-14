@@ -27,7 +27,7 @@ getuser(@Param('code') code : string){
 
 
 @Post()
-@UseInterceptors(FileInterceptor('imagenUrl', {
+@UseInterceptors(FileInterceptor('imageUrl', {
   storage: diskStorage({
     destination: './uploads/tools',
     filename: (req, file, cb) => {
@@ -47,13 +47,32 @@ async createTool(
 }
 
 
-@Put('/:code')
-updateuser(@Body() tool: updatetoolsdto){
-    return this.toolsService.updatetool(tool)
+@Put(':id')
+@UseInterceptors(FileInterceptor('imageUrl', {
+  storage: diskStorage({
+    destination: './uploads/tools',
+    filename: (req, file, cb) => {
+      const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
+      const ext = extname(file.originalname);
+      cb(null, `${file.fieldname}-${uniqueSuffix}${ext}`);
+    },
+  }),
+}))
+async updateTool(
+  @Param('id') id: string,
+  @Body() body: updatetoolsdto,
+  @UploadedFile() file?: Express.Multer.File,
+) {
+  const updatedData: updatetoolsdto = {
+    ...body,
+    imageUrl: file ? `/uploads/tools/${file.filename}` : body.imageUrl,
+  };
+
+  return this.toolsService.updatetool(id, updatedData);
 }
 
 @Delete('/:code')
-deleteuser(@Param('code') code: string) {
+deletetool(@Param('code') code: string) {
   return this.toolsService.deletetools(code);
 }
 

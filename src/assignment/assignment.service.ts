@@ -50,8 +50,8 @@ async createassignment(createassignment:createassignamentdto){
   if (!worker || createassignment.workerId.toString() !== worker._id.toString()) {
   throw new ConflictException( `The assignment can't be created because worker with ID ${createassignment.workerId} doesn't exist`);
 }
-if(tool.mantenancing ==true){
-  console.log(tool.mantenancing)
+if(tool.maintenance ==true){
+  console.log(tool.maintenance)
   throw new ConflictException( `The assignment can't be created because tool with ID ${tool.code} is in maintenance`);
 }
 if(tool.operating ==false){

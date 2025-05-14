@@ -25,7 +25,7 @@ amount: number;
 operating:boolean
 
 @Prop({required:true})
-mantenancing:boolean
+maintenance:boolean
 
 @Prop()
 imageUrl: string;
