@@ -22,10 +22,16 @@ getassignmnet(@Param('identify') identify: string){
 createassignmnet(@Body()assignement:createassignamentdto){
     return  this.assignmentservice.createassignment(assignement);
 }
-@Put()
-updateassignment(@Body()assignement:updateassignmentdto){   
-    return this.assignmentservice.updateuassignment(assignement);
+@Put('/:id')
+updateassignment(@Param('id') id:string, @Body()assignement:updateassignmentdto){   
+    return this.assignmentservice.updateuassignment(id, assignement);
 }
+
+@Put('change/:id')
+changeStatus(@Param('id') id: string){   
+    return this.assignmentservice.changestatus(id);
+}
+
 @Delete(':identify')
 deleteassignment(@Param('identify') identify: string) {
     return this.assignmentservice.deleteassignment(identify);

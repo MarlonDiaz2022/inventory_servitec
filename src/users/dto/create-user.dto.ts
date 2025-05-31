@@ -1,5 +1,6 @@
 import { Transform } from 'class-transformer';
-import { IsNotEmpty, IsString, MinLength } from 'class-validator'
+import { IsEnum, IsNotEmpty, IsString, MinLength } from 'class-validator'
+import { UserRoles } from 'src/Enum/user-roler.enum';
 
 export class createuserdto{
 
@@ -23,6 +24,10 @@ export class createuserdto{
   @MinLength(1) 
   @IsNotEmpty()
   password : string
+
+  @IsEnum(UserRoles, { message: 'El rol debe ser un valor válido (ADMIN, WORKER)' })
+  @IsNotEmpty({ message: 'El rol no puede estar vacío' })
+  readonly role: UserRoles; 
 
       }
 

@@ -1,7 +1,10 @@
-import { Controller, Get, Post,Put,Delete,Patch, Body, Param, ValidationPipe} from '@nestjs/common';
+import { Controller, Get, Post,Put,Delete,Patch, Body, Param, ValidationPipe, UseGuards} from '@nestjs/common';
 import { UsersService } from './users.service';
 import { createuserdto } from './dto/create-user.dto';
 import { updateuserdto } from './dto/update-user.dto';
+import { RolesGuard } from 'src/guard/rol.guard';
+import { Roles } from 'src/decorators/rol.decorator'; // Importa tu decorador de roles
+import { UserRoles } from 'src/Enum/user-roler.enum';
 
 @Controller('/users')
     export class UsersController {
@@ -22,15 +25,24 @@ getuser(@Param('id') id : string){
    return this.usersService.getuser(id);
 }
 
-
-@Post()
-createuser(@Body() user : createuserdto){
-    return this.usersService.createuser(user)
+@Get('/listTool/:id')
+gettools(@Param('id') cedula: string){
+    return this.usersService.listtools(cedula);
 }
 
-@Put()
-updateuser(@Body() user: updateuserdto){
-    return this.usersService.updateuser(user)
+
+@Post()
+@Roles(UserRoles.ADMIN) // Solo los administradores pueden crear usuarios
+@UseGuards(RolesGuard) // Aplica el guardia a este método específico
+async createuser(@Body() createuserDto: createuserdto) {
+    return this.usersService.createuser(createuserDto);
+  }
+
+@Put(':id')
+@Roles(UserRoles.ADMIN) // Solo los administradores pueden crear usuarios
+@UseGuards(RolesGuard) // Aplica el guardia a este método específico
+update(@Param('id') id: string, @Body() updateUserDto: updateuserdto) {
+  return this.usersService.updateuser(id, updateUserDto);
 }
 
 @Delete('/:cedula')

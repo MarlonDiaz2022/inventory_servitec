@@ -12,5 +12,8 @@ toolID:String;
 @IsString() 
 @MinLength(1)
 @IsNotEmpty()
-comments:string;
+comment:string;
+
+
+status:boolean;
 }

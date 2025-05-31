@@ -1,11 +1,8 @@
 
 
-export class UpdateMaintenanceDto{
-maintenancecode?:string;    
+export class UpdateMaintenanceDto{   
 toolID?:String;
-serial?:string;
-modelo?:string;
-marca?:string;
 maintenancedate?: Date
 comments?:string;
+status?:boolean;
 }

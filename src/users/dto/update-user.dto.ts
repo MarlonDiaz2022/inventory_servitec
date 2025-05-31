@@ -1,3 +1,5 @@
+import { UserRoles } from "src/Enum/user-roler.enum";
+
 export class updateuserdto{
 
     
@@ -5,5 +7,6 @@ export class updateuserdto{
     cedula?: string;
     telefono? :string;
     password?: string
+    readonly role?: UserRoles; 
 
 }

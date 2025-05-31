@@ -1,4 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { IsOptional } from 'class-validator';
 import { Types } from 'mongoose';
 
 
@@ -20,7 +21,8 @@ export class assignment {
   @Prop({ required: true, default: () => new Date() })
   date_of_loan: Date;
 
-  @Prop({ required: true, default:null})
+  @IsOptional()
+  @Prop({ default:null})
   delivery_date: Date;
 
   @Prop({ required: true })

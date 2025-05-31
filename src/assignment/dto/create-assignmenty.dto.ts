@@ -1,7 +1,5 @@
 import { IsNotEmpty,IsString } from "class-validator";
 
-
-
 export class createassignamentdto {
 
     @IsNotEmpty()
@@ -17,4 +15,6 @@ export class createassignamentdto {
   
     @IsNotEmpty()
     status: boolean;
+
+    delivery_date: Date;
   }

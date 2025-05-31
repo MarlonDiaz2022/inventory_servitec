@@ -12,6 +12,9 @@ toolID: Types.ObjectId;
 
 @Prop({required: true, uppercase:true, trim:true})
 comment: string;
+
+@Prop({ default : true })
+status:boolean
 }
 
 export const maintenancesSchema = SchemaFactory.createForClass(maintenances)
