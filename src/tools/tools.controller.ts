@@ -58,10 +58,8 @@ async createTool(
     },
   }),
 }))
-async updateTool(
-  @Param('id') id: string,
-  @Body() body: updatetoolsdto,
-  @UploadedFile() file?: Express.Multer.File,
+
+async updateTool(@Param('id') id: string,@Body() body: updatetoolsdto,@UploadedFile() file?: Express.Multer.File,
 ) {
   const updatedData: updatetoolsdto = {
     ...body,

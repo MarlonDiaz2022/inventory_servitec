@@ -10,7 +10,6 @@ export class AuthService {
   async validateUser(cedula: string, pass: string): Promise<any> {
     // Usamos el nuevo método que busca el password
     const user = await this.usersService.findOneByCedulaWithPassword(cedula);
-console.log('Usuario no encontrado',cedula );
     if (!user) {
       
       throw new UnauthorizedException('Cédula o contraseña incorrecta');

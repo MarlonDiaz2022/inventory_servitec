@@ -38,12 +38,12 @@ export class ToolsService {
   }
 
   async updatetool(id: string, tool: updatetoolsdto) {
-    const existsTool = await this.toolsModel.findById(id);
+    const existsTool = await this.toolsModel.findOne({ _id: id });
 
     if (!existsTool) {
       throw new ConflictException(`Tool with id ${id} does not exist`);
     }
-
+    console.log('Archivo recibido:', tool.name);
     await this.toolsModel.updateOne({ _id: id }, { $set: tool });
     return this.toolsModel.findById(id);
   }

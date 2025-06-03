@@ -30,17 +30,12 @@ gettools(@Param('id') cedula: string){
     return this.usersService.listtools(cedula);
 }
 
-
 @Post()
-@Roles(UserRoles.ADMIN) // Solo los administradores pueden crear usuarios
-@UseGuards(RolesGuard) // Aplica el guardia a este método específico
 async createuser(@Body() createuserDto: createuserdto) {
     return this.usersService.createuser(createuserDto);
   }
 
 @Put(':id')
-@Roles(UserRoles.ADMIN) // Solo los administradores pueden crear usuarios
-@UseGuards(RolesGuard) // Aplica el guardia a este método específico
 update(@Param('id') id: string, @Body() updateUserDto: updateuserdto) {
   return this.usersService.updateuser(id, updateUserDto);
 }
@@ -49,9 +44,6 @@ update(@Param('id') id: string, @Body() updateUserDto: updateuserdto) {
 deleteuser(@Param('cedula') cedula: string) {
   return this.usersService.deleteuser(cedula);
 }
-
-
-
 
 
 }

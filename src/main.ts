@@ -8,9 +8,9 @@ async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
    app.useGlobalPipes(new ValidationPipe({
-    whitelist: true, // Remueve propiedades que no están en el DTO
+    whitelist: false, // Remueve propiedades que no están en el DTO
     forbidNonWhitelisted: false, // Lanza un error si hay propiedades no permitidas
-    transform: true, // Transforma los payloads a instancias del DTO
+    transform: false, // Transforma los payloads a instancias del DTO
   }));
   
 

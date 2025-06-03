@@ -16,7 +16,6 @@ import { users } from './schemas/users.schema';
 import { Model } from 'mongoose';
 import { assignment } from 'src/assignment/schema/assignment.schema';
 import { tools } from 'src/tools/schemas/tools.schema';
-import { UserRoles } from 'src/Enum/user-roler.enum';
 import { LoginUserDto } from 'src/auth/dto/loginusers.dto';
 
 @Injectable()
@@ -38,7 +37,6 @@ export class UsersService {
     if (!existsusers) {
       throw new ConflictException(`user with ${cedula} no exist`);
     }
-
     return this.usersModel.findOne({ cedula });
   }
 

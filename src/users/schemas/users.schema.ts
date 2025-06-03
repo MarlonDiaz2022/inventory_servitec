@@ -18,7 +18,7 @@ phone: string;
 @Prop({required: true,select: false})
 password: string;
 
-@Prop({type: String,enum: Object.values(UserRoles),default: UserRoles.WORKER,required: true, })
+@Prop({type: String,enum: Object.values(UserRoles),default: UserRoles.WORKER,required: true, uppercase: true, trim: true})
   role: UserRoles; 
 }
 
