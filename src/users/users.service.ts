@@ -86,16 +86,20 @@ export class UsersService {
   }
 
   async listtools(cedula: string) {
-    const existsUser = await this.usersModel.findOne({ cedula });
-    if (!existsUser)
-      throw new ConflictException(`El usuario con cédula ${cedula} no existe`);
-    const identificator = existsUser?._id.toString();
-    const assignments = await this.assigmentmodel
-      .find({ worker: identificator })
-      .populate({ path: 'tool', select: 'name code serial imageUrl' });
+  const existsUser = await this.usersModel.findOne({ cedula });
 
-    return assignments;
+  if (!existsUser) {
+    throw new ConflictException(`El usuario con cédula ${cedula} no existe`);
   }
+
+  const identificator = existsUser._id.toString();
+
+  const assignments = await this.assigmentmodel
+    .find({ worker: identificator })
+    .populate({ path: 'tool', select: 'name code serial imageUrl' })
+    .sort({ fechaAsignacion: -1 }); 
+  return assignments;
+}
 
   async validateUser(cedula: string, pass: string): Promise<any> {
     const user = await this.usersService.findOneByCedulaWithPassword(cedula);
